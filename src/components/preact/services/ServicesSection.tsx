@@ -1,7 +1,23 @@
-import { useMemo } from 'preact/hooks';
+import { useMemo, useCallback, useEffect } from 'preact/hooks';
 import { useUrlState } from './hooks/useUrlState';
 import { serviceAreas, categoryColors } from './data';
 import type { ServiceCategory, Treatment, ServiceArea } from './types';
+
+function scrollToSection() {
+  const section = document.getElementById('servicios');
+  if (section) {
+    const headerOffset = 80;
+    const elementPosition = section.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: elementPosition - headerOffset, behavior: 'smooth' });
+  }
+}
+
+function buildTreatmentUrl(category: ServiceCategory, treatmentId: string): string {
+  const params = new URLSearchParams();
+  params.set('tab', category);
+  params.set('treatment', treatmentId);
+  return `?${params.toString()}#servicios`;
+}
 
 interface TabButtonProps {
   area: ServiceArea;
@@ -23,28 +39,34 @@ function TabButton({ area, isActive, onClick }: TabButtonProps) {
   );
 }
 
-interface TreatmentButtonProps {
+interface TreatmentLinkProps {
   treatment: Treatment;
   category: ServiceCategory;
-  onClick: () => void;
+  onNavigate: (e: Event, id: string) => void;
 }
 
-function TreatmentButton({ treatment, category, onClick }: TreatmentButtonProps) {
+function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) {
   const colors = categoryColors[category];
+  const href = buildTreatmentUrl(category, treatment.id);
+
   return (
-    <li>
-      <button
-        onClick={onClick}
-        class={`w-full text-left p-4 bg-cream ${colors.text} transition-all duration-300 ${
-          category === 'facial'
-            ? 'hover:bg-primary hover:text-secondary'
-            : category === 'corporal'
-              ? 'hover:bg-accent-green hover:text-white'
-              : 'hover:bg-accent-teal hover:text-white'
-        }`}
+    <li class="border-b border-secondary/30 last:border-b-0">
+      <a
+        href={href}
+        onClick={(e) => onNavigate(e, treatment.id)}
+        class={`group flex items-center gap-3 py-4 ${colors.text} transition-colors hover:opacity-80`}
       >
-        <span class="font-medium">• {treatment.title}</span>
-      </button>
+        <svg
+          class={`w-4 h-4 shrink-0 ${colors.text}`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+        <span class="group-hover:underline underline-offset-4">{treatment.title}</span>
+      </a>
     </li>
   );
 }
@@ -52,24 +74,26 @@ function TreatmentButton({ treatment, category, onClick }: TreatmentButtonProps)
 interface TreatmentDetailProps {
   treatment: Treatment;
   category: ServiceCategory;
-  onBack: () => void;
+  onBack: (e: Event) => void;
+  backHref: string;
   imageSrc: string;
 }
 
-function TreatmentDetail({ treatment, category, onBack, imageSrc }: TreatmentDetailProps) {
+function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc }: TreatmentDetailProps) {
   const colors = categoryColors[category];
 
   return (
     <div class="animate-fadeIn">
-      <button
+      <a
+        href={backHref}
         onClick={onBack}
-        class={`flex items-center gap-2 mb-8 ${colors.text} hover:opacity-70 transition-opacity`}
+        class={`inline-flex items-center gap-2 mb-8 ${colors.text} hover:opacity-70 transition-opacity`}
       >
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
         <span class="text-sm tracking-widest uppercase">Volver a tratamientos</span>
-      </button>
+      </a>
 
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
         <div class="relative">
@@ -97,27 +121,43 @@ function TreatmentDetail({ treatment, category, onBack, imageSrc }: TreatmentDet
 
 interface TreatmentListProps {
   area: ServiceArea;
-  onSelectTreatment: (id: string) => void;
+  heroImageSrc: string;
+  onSelectTreatment: (e: Event, id: string) => void;
 }
 
-function TreatmentList({ area, onSelectTreatment }: TreatmentListProps) {
+function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListProps) {
   const colors = categoryColors[area.id];
 
   return (
     <div class="animate-fadeIn">
-      <div class={`mb-8 ${colors.text}`}>
-        <p class="text-base lg:text-lg leading-relaxed max-w-4xl">{area.description}</p>
-      </div>
-      <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {area.treatments.map((treatment) => (
-          <TreatmentButton
-            key={treatment.id}
-            treatment={treatment}
-            category={area.id}
-            onClick={() => onSelectTreatment(treatment.id)}
+      <div class="grid lg:grid-cols-5 gap-8 lg:gap-12">
+        <div class="lg:col-span-3">
+          <p class={`text-base lg:text-lg leading-relaxed mb-8 ${colors.text}`}>
+            {area.description}
+          </p>
+
+          <nav>
+            <ul>
+              {area.treatments.map((treatment) => (
+                <TreatmentLink
+                  key={treatment.id}
+                  treatment={treatment}
+                  category={area.id}
+                  onNavigate={onSelectTreatment}
+                />
+              ))}
+            </ul>
+          </nav>
+        </div>
+
+        <div class="hidden lg:block lg:col-span-2">
+          <img
+            src={heroImageSrc}
+            alt="Nuestros Servicios - Benzoni"
+            class="w-full h-auto object-cover shadow-lg sticky top-24"
           />
-        ))}
-      </ul>
+        </div>
+      </div>
     </div>
   );
 }
@@ -145,9 +185,34 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
     return treatmentImages[treatmentId] || heroImageSrc;
   };
 
+  const handleSelectTreatment = useCallback((e: Event, id: string) => {
+    e.preventDefault();
+    setTreatment(id);
+    scrollToSection();
+  }, [setTreatment]);
+
+  const handleBack = useCallback((e: Event) => {
+    e.preventDefault();
+    clearTreatment();
+    scrollToSection();
+  }, [clearTreatment]);
+
+  const backHref = useMemo(() => {
+    const params = new URLSearchParams();
+    if (tab !== 'facial') params.set('tab', tab);
+    const query = params.toString();
+    return query ? `?${query}#servicios` : '#servicios';
+  }, [tab]);
+
+  useEffect(() => {
+    if (window.location.hash === '#servicios' && (treatment || tab !== 'facial')) {
+      scrollToSection();
+    }
+  }, []);
+
   return (
     <div>
-      <div class="flex flex-wrap justify-center gap-4 lg:gap-12 mb-8">
+      <div class="flex flex-wrap justify-center gap-4 lg:gap-12 mb-10">
         {serviceAreas.map((area) => (
           <TabButton
             key={area.id}
@@ -158,25 +223,20 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
         ))}
       </div>
 
-      {!selectedTreatment && (
-        <div class="mb-12">
-          <img
-            src={heroImageSrc}
-            alt="Nuestros Servicios - Benzoni"
-            class="w-full h-64 lg:h-96 object-cover shadow-lg"
-          />
-        </div>
-      )}
-
       {selectedTreatment ? (
         <TreatmentDetail
           treatment={selectedTreatment.treatment}
           category={selectedTreatment.category}
-          onBack={clearTreatment}
+          onBack={handleBack}
+          backHref={backHref}
           imageSrc={getTreatmentImageSrc(selectedTreatment.treatment.id)}
         />
       ) : (
-        <TreatmentList area={currentArea} onSelectTreatment={setTreatment} />
+        <TreatmentList
+          area={currentArea}
+          heroImageSrc={heroImageSrc}
+          onSelectTreatment={handleSelectTreatment}
+        />
       )}
     </div>
   );
