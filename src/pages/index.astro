@@ -1,16 +1,17 @@
 ---
-import '../styles/global.css'
+import "../styles/global.css";
 
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Doctor from '../components/Doctor.astro';
-import Services from '../components/Services.astro';
-import Asesoramiento from '../components/Asesoramiento.astro';
-import LineaDermocosmetica from '../components/LineaDermocosmetica.astro';
-import GiftCard from '../components/GiftCard.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Doctor from "../components/Doctor.astro";
+import Services from "../components/Services.astro";
+import Asesoramiento from "../components/Asesoramiento.astro";
+import LineaDermocosmetica from "../components/LineaDermocosmetica.astro";
+import GiftCard from "../components/GiftCard.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import Posthog from "../components/posthog.astro";
 ---
 
 <html lang="es">
@@ -18,9 +19,13 @@ import Footer from '../components/Footer.astro';
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Benzoni - Consultorio Médico Estético & Bienestar. Tratamientos faciales, corporales, depilación láser y área wellness. Cuidado integral para la mujer actual." />
+    <meta
+      name="description"
+      content="Benzoni - Consultorio Médico Estético & Bienestar. Tratamientos faciales, corporales, depilación láser y área wellness. Cuidado integral para la mujer actual."
+    />
     <meta name="generator" content={Astro.generator} />
     <title>Benzoni | Consultorio Médico Estético & Bienestar</title>
+    <Posthog />
   </head>
   <body class="font-body antialiased">
     <Header />
@@ -38,14 +43,16 @@ import Footer from '../components/Footer.astro';
 
     <script>
       // Smooth scroll for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', (e) => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
           e.preventDefault();
-          const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
-          if (href && href !== '#') {
+          const href = (e.currentTarget as HTMLAnchorElement).getAttribute(
+            "href",
+          );
+          if (href && href !== "#") {
             const target = document.querySelector(href);
             if (target) {
-              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
             }
           }
         });
