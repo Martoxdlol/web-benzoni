@@ -25,15 +25,16 @@
 }
 
 @theme {
-  --color-primary: #8B7FB8;
-  --color-primary-dark: #7269A0;
-  --color-secondary: #E8E4D9;
-  --color-secondary-dark: #D4CFC0;
+  /* Brand Colors */
+  --color-primary: #071a53;
+  --color-primary-dark: #050f33;
+  --color-secondary: #ebdff4;
+  --color-secondary-dark: #d9c9e8;
   --color-accent-green: #5A6B4D;
-  --color-accent-teal: #7BA3A8;
-  --color-navy: #1E2A4A;
-  --color-cream: #F5F2EB;
-  --color-light-lavender: #E8E4F0;
+  --color-accent-teal: #5A9A9A;
+  --color-navy: #071a53;
+  --color-cream: #f5f0fa;
+  --color-light-lavender: #ebdff4;
   --font-family-body: 'Raleway', Arial, sans-serif;
 }
 
