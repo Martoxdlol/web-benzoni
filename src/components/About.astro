@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import recepcionImage from '../assets/images/general/recepcion.jpg';
 ---
 
 <section id="nosotros" class="py-20 bg-secondary">
@@ -6,11 +8,10 @@
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
       <!-- Image -->
       <div class="relative">
-        <img
-          src="/images/general/recepcion.jpg"
+        <Image
+          src={recepcionImage}
           alt="Consultorio Benzoni - Recepción"
           class="w-full h-auto shadow-lg"
-          loading="lazy"
         />
       </div>
 

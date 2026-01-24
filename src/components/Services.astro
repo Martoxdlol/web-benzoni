@@ -1,4 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import facialImage from '../assets/images/facial/FACIAL5.jpg';
+import corporalImage from '../assets/images/treatments/masaje_descontracturante.jpg';
+import wellnessImage from '../assets/images/treatments/masajes piedras2.jpg';
+
 const facialTreatments = [
   { title: "Limpieza facial profunda", description: "Renueva la piel en profundidad, eliminando impurezas y células muertas. Mejora la textura, la oxigenación y la luminosidad, preparando el rostro para absorber mejor los activos y tratamientos posteriores." },
   { title: "Tratamiento cicatrices", description: "Protocolos personalizados para atenuar cicatrices de acné, quirúrgicas o traumáticas. Combinamos tecnología fraccionada, bioestimulación y cuidado médico para mejorar textura, color y uniformidad de la piel." },
@@ -75,11 +80,10 @@ const wellnessTreatments = [
           </ul>
         </div>
         <div class="relative">
-          <img
-            src="/images/facial/FACIAL5.jpg"
+          <Image
+            src={facialImage}
             alt="Tratamientos Faciales"
             class="w-full h-auto shadow-lg"
-            loading="lazy"
           />
         </div>
       </div>
@@ -100,11 +104,10 @@ const wellnessTreatments = [
           </ul>
         </div>
         <div class="relative">
-          <img
-            src="/images/treatments/masaje_descontracturante.jpg"
+          <Image
+            src={corporalImage}
             alt="Tratamientos Corporales"
             class="w-full h-auto shadow-lg"
-            loading="lazy"
           />
         </div>
       </div>
@@ -125,11 +128,10 @@ const wellnessTreatments = [
           </ul>
         </div>
         <div class="relative">
-          <img
-            src="/images/treatments/masajes piedras2.jpg"
+          <Image
+            src={wellnessImage}
             alt="Área Wellness"
             class="w-full h-auto shadow-lg"
-            loading="lazy"
           />
         </div>
       </div>

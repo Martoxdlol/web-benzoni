@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import cosmeticaImage from '../assets/images/general/cosmetica.jpg';
 ---
 
 <section id="asesoramiento" class="py-20 bg-light-lavender">
@@ -6,11 +8,10 @@
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <!-- Image -->
       <div class="relative">
-        <img
-          src="/images/general/cosmetica.jpg"
+        <Image
+          src={cosmeticaImage}
           alt="Asesoramiento Dermatocosmético Personalizado"
           class="w-full h-auto shadow-lg"
-          loading="lazy"
         />
       </div>
 

@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import doctorImage from '../assets/images/general/asesoramiento-medico-estetico-grup-policlinic-1024x771.jpg';
 ---
 
 <section id="doctora" class="py-20 bg-cream">
@@ -29,11 +31,10 @@
 
       <!-- Image -->
       <div class="relative order-1 lg:order-2">
-        <img
-          src="/images/general/asesoramiento-medico-estetico-grup-policlinic-1024x771.jpg"
+        <Image
+          src={doctorImage}
           alt="Dra. Fabiana Benzoni - Consultorio Médico Estético"
           class="w-full h-auto shadow-lg"
-          loading="lazy"
         />
       </div>
     </div>
