@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  isActive?: boolean;
+}
+
+const { title, description, image, isActive = false } = Astro.props;
+---
+
+<div class={`treatment-card cursor-pointer transition-all duration-300 ${isActive ? 'font-semibold' : 'font-normal'}`}>
+  <p class="text-base lg:text-lg hover:underline underline-offset-4">
+    {isActive ? '• ' : '• '}{title}
+  </p>
+</div>

@@ -1,0 +1,162 @@
+---
+const facialTreatments = [
+  { title: "Limpieza facial profunda", description: "Renueva la piel en profundidad, eliminando impurezas y células muertas. Mejora la textura, la oxigenación y la luminosidad, preparando el rostro para absorber mejor los activos y tratamientos posteriores." },
+  { title: "Tratamiento cicatrices", description: "Protocolos personalizados para atenuar cicatrices de acné, quirúrgicas o traumáticas. Combinamos tecnología fraccionada, bioestimulación y cuidado médico para mejorar textura, color y uniformidad de la piel." },
+  { title: "Toxina botulínica", description: "Relaja las líneas de expresión y suaviza arrugas dinámicas con resultados naturales y equilibrados. Permite armonizar el rostro, aplicando en áreas no convencionales, manteniendo frescura y expresividad." },
+  { title: "Fillers con ácido Hialurónico", description: "Reponen volumen y definen contornos en labios, mentón o pómulos. Permiten realzar facciones y devolver firmeza, con resultados inmediatos y naturales, respetando la armonía facial." },
+  { title: "Bioestimulación inyectable", description: "Profhilo, Sculptra, HarmonicA, Radiesse. Activan los procesos naturales de regeneración del colágeno y la elastina. Mejoran firmeza, densidad y calidad de la piel desde el interior." },
+  { title: "HIFU (Ultrasonido Focalizado de Alta Intensidad)", description: "Tecnología que estimula la producción de colágeno a nivel profundo, logrando un efecto lifting sin cirugía. Mejora la firmeza y redefine el óvalo facial." },
+  { title: "Fraxel", description: "Radiofrecuencia Fraccionada. Favorece la regeneración de la piel mediante energía térmica controlada. Reduce poros, mejora textura, luminosidad y firmeza." },
+  { title: "Luz Pulsada Intensa", description: "Una tecnología versátil que trata múltiples alteraciones de la piel: manchas, rosácea, acné y signos del fotoenvejecimiento." },
+  { title: "Spider, Radiofrecuencia coagulativa", description: "Tecnología médica precisa y segura para tratar telangiectasias, pequeñas arañitas vasculares y capilares visibles en rostro y piernas." },
+];
+
+const bodyTreatments = [
+  { title: "Masajes modeladores", description: "Técnicas manuales específicas que estimulan la circulación, mejoran el drenaje linfático y ayudan a remodelar contornos." },
+  { title: "Lipolaser", description: "Tecnología que utiliza luz láser de baja intensidad para favorecer la liberación de grasa localizada." },
+  { title: "Body Up (ondas electromagnéticas)", description: "Estimula la contracción muscular profunda mediante impulsos electromagnéticos de alta intensidad." },
+  { title: "Termo Slim (termoterapia)", description: "Emplea calor controlado para activar la circulación y estimular el metabolismo local." },
+  { title: "Electroterapia", description: "Utiliza corrientes eléctricas moduladas para mejorar tono muscular, circulación y drenaje." },
+  { title: "Presoterapia secuencial", description: "Mediante presión de aire controlada, estimula el drenaje linfático y el retorno venoso." },
+  { title: "Radiofrecuencia monopolar y tripolar", description: "Activa la producción de colágeno y elastina mediante energía térmica profunda." },
+  { title: "Radiofrecuencia Fraccionada", description: "Combina calor y microestimulación en profundidad para mejorar la firmeza y la calidad de la piel corporal." },
+  { title: "Ultra cavitación", description: "Tecnología que actúa sobre los cúmulos de grasa localizada mediante ondas ultrasónicas." },
+  { title: "Depilación Definitiva", description: "Soprano Titanium combina tres longitudes de onda para eliminar el vello de forma segura, eficaz y duradera." },
+];
+
+const wellnessTreatments = [
+  { title: "Masaje Descontracturante", description: "Alivia tensiones musculares profundas y zonas de dolor acumulado. Favorece la relajación del cuerpo, mejora la postura y recupera la movilidad." },
+  { title: "Masaje Californiano", description: "Movimientos largos, suaves y fluidos que generan un profundo efecto relajante. Estimula la circulación, disminuye el estrés." },
+  { title: "Masaje Ayurvédico", description: "Inspirado en la medicina tradicional india, combina técnicas de presión y estiramiento con aceites específicos." },
+  { title: "Reflexología", description: "Tratamiento de los pies que activa puntos reflejos relacionados con distintos órganos y sistemas." },
+  { title: "Masaje en silla ergonómica", description: "Sesión rápida y efectiva para aliviar tensiones acumuladas en cabeza, cuello y espalda alta." },
+  { title: "Masaje con piedras calientes", description: "Combinación de calor terapéutico y vibraciones sonoras con cuencos que relajan músculos y mente profundamente." },
+];
+---
+
+<section id="servicios" class="py-20 bg-secondary">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <!-- Tabs -->
+    <div class="flex flex-wrap justify-center gap-4 lg:gap-12 mb-12">
+      <button
+        class="tab-btn text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 border-transparent transition-all text-primary hover:border-primary data-[active=true]:border-primary data-[active=true]:font-medium"
+        data-tab="facial"
+        data-active="true"
+      >
+        Área Médica Facial
+      </button>
+      <button
+        class="tab-btn text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 border-transparent transition-all text-accent-green hover:border-accent-green data-[active=true]:border-accent-green data-[active=true]:font-medium"
+        data-tab="corporal"
+      >
+        Área Corporal
+      </button>
+      <button
+        class="tab-btn text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 border-transparent transition-all text-accent-teal hover:border-accent-teal data-[active=true]:border-accent-teal data-[active=true]:font-medium"
+        data-tab="wellness"
+      >
+        Área Wellness
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" data-content="facial">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div class="text-primary">
+          <p class="text-base lg:text-lg leading-relaxed mb-8">
+            Abordamos la salud y belleza de la piel con procedimientos médicos seguros, mínimamente invasivos y de alta eficacia. Cada tratamiento se adapta a las necesidades de tu piel, combinando activos dermocosméticos, tecnología y técnica médica. Buscamos resultados naturales: una piel más firme, luminosa y equilibrada.
+          </p>
+          <ul class="space-y-3">
+            {facialTreatments.map((treatment) => (
+              <li class="text-base lg:text-lg cursor-pointer hover:font-medium transition-all">
+                • {treatment.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="relative">
+          <img
+            src="/images/facial/FACIAL5.jpg"
+            alt="Tratamientos Faciales"
+            class="w-full h-auto shadow-lg"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" data-content="corporal">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div class="text-accent-green">
+          <p class="text-base lg:text-lg leading-relaxed mb-8">
+            Cada tratamiento comienza con un diagnóstico personalizado y seguimiento médico realizado por mí, para garantizar resultados seguros y adaptados a tus objetivos. Las sesiones integran masajes manuales específicos con tecnologías de última generación, orientadas a modelar, tonificar y mejorar la textura de la piel.
+          </p>
+          <ul class="space-y-3">
+            {bodyTreatments.map((treatment) => (
+              <li class="text-base lg:text-lg cursor-pointer hover:font-medium transition-all">
+                • {treatment.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="relative">
+          <img
+            src="/images/treatments/masaje_descontracturante.jpg"
+            alt="Tratamientos Corporales"
+            class="w-full h-auto shadow-lg"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" data-content="wellness">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div class="text-accent-teal">
+          <p class="text-base lg:text-lg leading-relaxed mb-8">
+            Un espacio pensado para detener el ritmo y reconectarte con tu bienestar. Las experiencias combinan técnicas manuales, aromaterapia y rituales sensoriales que alivian tensiones, mejoran la circulación y renuevan la energía. Una invitación a cuidar el cuerpo y la mente con serenidad.
+          </p>
+          <ul class="space-y-3">
+            {wellnessTreatments.map((treatment) => (
+              <li class="text-base lg:text-lg cursor-pointer hover:font-medium transition-all">
+                • {treatment.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="relative">
+          <img
+            src="/images/treatments/masajes piedras2.jpg"
+            alt="Área Wellness"
+            class="w-full h-auto shadow-lg"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+
+      // Update active button
+      tabBtns.forEach(b => b.setAttribute('data-active', 'false'));
+      btn.setAttribute('data-active', 'true');
+
+      // Show active content
+      tabContents.forEach(content => {
+        if (content.getAttribute('data-content') === tab) {
+          content.classList.remove('hidden');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
