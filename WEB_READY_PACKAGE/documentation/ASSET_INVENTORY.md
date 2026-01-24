@@ -62,7 +62,7 @@
 | 2 | mujer-madura2.jpg | 170 KB | 500 x 333 px | Target demographic |
 | 3 | Flyer-Mama (1).jpg | 120 KB | 1500 x 1000 px | Promotional materials |
 | 4 | cosmetica.jpg | 506 KB | 1000 x 470 px | Cosmetic products |
-| 5 | asesoramiento-medico-estetico-grup-policlinic-1024x771.jpg | 27 KB | 1024 x 771 px | Medical consulting |
+| 5 | asesoramiento-medico-estetico.jpg | 27 KB | 1024 x 771 px | Medical consulting |
 | 6 | IMG_20260113_155022.jpg | 380 KB | 1200 x 776 px | Facility interior |
 | 7 | IMG_20260113_155056.jpg | 610 KB | 1085 x 1097 px | Facility detail |
 | 8 | Screenshot_2026-01-13-14-38-49-648_com.android.chrome.jpg | 624 KB | 1096 x 1622 px | Mobile reference/mockup |
@@ -177,7 +177,7 @@ font-family: 'Raleway', Arial, sans-serif;
 - `IMG_20260113_155056.jpg` - Detail shot
 
 **Professional Imagery:**
-- `asesoramiento-medico-estetico-grup-policlinic-1024x771.jpg`
+- `asesoramiento-medico-estetico.jpg`
 - `mujer-madura2.jpg` - Target demographic
 
 ### Cosmetics/Products Section

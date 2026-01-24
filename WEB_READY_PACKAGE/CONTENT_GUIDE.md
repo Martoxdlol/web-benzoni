@@ -228,7 +228,7 @@ Combinación de calor terapéutico y vibraciones sonoras que relajan músculos y
 
 Ofrezco **asesoramiento dermatocosmético personalizado**, basado en una evaluación detallada de tu piel y sus necesidades reales. A partir de ese diagnóstico, desarrollo **fórmulas y rutinas específicas**, utilizando activos de alta eficacia para acompañar cada etapa de la piel con un enfoque médico, seguro y orientado al bienestar general.
 
-**Image:** cosmetica.jpg, asesoramiento-medico-estetico-grup-policlinic-1024x771.jpg
+**Image:** cosmetica.jpg, asesoramiento-medico-estetico.jpg
 
 ---
 
