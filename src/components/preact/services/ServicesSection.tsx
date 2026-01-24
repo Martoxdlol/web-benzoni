@@ -40,8 +40,10 @@ function TabButton({ area, isActive, onClick }: TabButtonProps) {
   return (
     <button
       onClick={onClick}
-      class={`text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 transition-all ${colorClass.text} ${isActive ? `${colorClass.border} font-medium` : 'border-transparent'
+      class={`text-xl tracking-widest uppercase pb-2 border-b-2 transition-all ${colorClass.text} ${isActive ? `${colorClass.border} font-medium` : 'border-transparent'
         } hover:${colorClass.border}`}
+      style={{
+      }}
     >
       {area.label}
     </button>
@@ -63,7 +65,7 @@ function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) 
       <a
         href={href}
         onClick={(e) => onNavigate(e, treatment.id)}
-        class={`group flex items-center gap-3 py-4 ${colors.text} transition-colors hover:opacity-80`}
+        class={`group flex items-center gap-3 py-2 ${colors.text} transition-colors hover:opacity-80 text-xl text-balance`}
       >
         <svg
           class={`w-4 h-4 shrink-0 ${colors.text}`}
@@ -86,23 +88,40 @@ interface TreatmentDetailProps {
   onBack: (e: Event) => void;
   backHref: string;
   imageSrc: string;
+  nextTreatment: Treatment | null;
+  onNext: (e: Event) => void;
+  nextHref: string | null;
 }
 
-function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc }: TreatmentDetailProps) {
+function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc, nextTreatment, onNext, nextHref }: TreatmentDetailProps) {
   const colors = categoryColors[category];
 
   return (
     <div class="animate-fadeIn" id="treatment-detail">
-      <a
-        href={backHref}
-        onClick={onBack}
-        class={`inline-flex items-center gap-2 mb-8 ${colors.text} hover:opacity-70 transition-opacity`}
-      >
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-        <span class="text-sm tracking-widest uppercase">Volver a tratamientos</span>
-      </a>
+      <div class="flex items-center justify-between mb-8">
+        <a
+          href={backHref}
+          onClick={onBack}
+          class={`inline-flex items-center gap-2 ${colors.text} hover:opacity-70 transition-opacity`}
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span class="text-sm tracking-widest uppercase">Volver a tratamientos</span>
+        </a>
+        {nextTreatment && nextHref && (
+          <a
+            href={nextHref}
+            onClick={onNext}
+            class={`inline-flex items-center gap-2 ${colors.text} hover:opacity-70 transition-opacity`}
+          >
+            <span class="text-sm tracking-widest uppercase">Siguiente</span>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        )}
+      </div>
 
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
         <div class="relative">
@@ -139,12 +158,12 @@ function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListP
 
   return (
     <div class="animate-fadeIn">
-      <div class="grid lg:grid-cols-5 gap-8 lg:gap-12">
-        <div class="lg:col-span-3">
-          <p class={`text-base lg:text-lg leading-relaxed mb-8 ${colors.text}`}>
-            {area.description}
-          </p>
+      <div class="flex flex-col lg:grid lg:grid-cols-5 gap-8 lg:gap-12">
+        <p class={`order-1 lg:hidden text-base leading-relaxed ${colors.text}`}>
+          {area.description}
+        </p>
 
+        <div class="order-3 lg:order-0 lg:col-span-2">
           <nav>
             <ul>
               {area.treatments.map((treatment) => (
@@ -159,12 +178,15 @@ function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListP
           </nav>
         </div>
 
-        <div class="hidden lg:block lg:col-span-2">
+        <div class="order-2 lg:order-0 lg:col-span-3 space-y-4">
           <img
             src={heroImageSrc}
             alt="Nuestros Servicios - Benzoni"
-            class="w-full h-auto object-cover shadow-lg sticky top-24"
+            class="w-full h-auto object-cover shadow-lg lg:sticky lg:top-24"
           />
+          <p class={`hidden lg:block text-lg leading-relaxed mb-8 ${colors.text}`}>
+            {area.description}
+          </p>
         </div>
       </div>
     </div>
@@ -184,8 +206,11 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
   const selectedTreatment = useMemo(() => {
     if (!treatment) return null;
     for (const area of serviceAreas) {
-      const found = area.treatments.find((t) => t.id === treatment);
-      if (found) return { treatment: found, category: area.id };
+      const index = area.treatments.findIndex((t) => t.id === treatment);
+      if (index !== -1) {
+        const nextTreatment = index < area.treatments.length - 1 ? area.treatments[index + 1] : null;
+        return { treatment: area.treatments[index], category: area.id, nextTreatment };
+      }
     }
     return null;
   }, [treatment]);
@@ -206,12 +231,25 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
     scrollToSection();
   }, [clearTreatment]);
 
+  const handleNext = useCallback((e: Event) => {
+    e.preventDefault();
+    if (selectedTreatment?.nextTreatment) {
+      setTreatment(selectedTreatment.nextTreatment.id);
+      setTimeout(() => scrollToTreatmentSection(), 0);
+    }
+  }, [selectedTreatment, setTreatment]);
+
   const backHref = useMemo(() => {
     const params = new URLSearchParams();
     if (tab !== 'facial') params.set('tab', tab);
     const query = params.toString();
     return query ? `?${query}#servicios` : '#servicios';
   }, [tab]);
+
+  const nextHref = useMemo(() => {
+    if (!selectedTreatment?.nextTreatment) return null;
+    return buildTreatmentUrl(selectedTreatment.category, selectedTreatment.nextTreatment.id);
+  }, [selectedTreatment]);
 
   useEffect(() => {
     if (window.location.hash === '#servicios' && (treatment || tab !== 'facial')) {
@@ -221,7 +259,7 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
 
   return (
     <div>
-      <div class="flex flex-wrap justify-center gap-4 lg:gap-12 mb-10">
+      <div class="flex flex-col items-center lg:flex-row lg:justify-around gap-4 mb-10">
         {serviceAreas.map((area) => (
           <TabButton
             key={area.id}
@@ -239,6 +277,9 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
           onBack={handleBack}
           backHref={backHref}
           imageSrc={getTreatmentImageSrc(selectedTreatment.treatment.id)}
+          nextTreatment={selectedTreatment.nextTreatment}
+          onNext={handleNext}
+          nextHref={nextHref}
         />
       ) : (
         <TreatmentList
