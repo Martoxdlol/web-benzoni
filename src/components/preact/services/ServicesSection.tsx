@@ -6,11 +6,21 @@ import type { ServiceCategory, Treatment, ServiceArea } from './types';
 function scrollToSection() {
   const section = document.getElementById('servicios');
   if (section) {
-    const headerOffset = 80;
+    const headerOffset = 75;
     const elementPosition = section.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: elementPosition - headerOffset, behavior: 'smooth' });
   }
 }
+
+function scrollToTreatmentSection() {
+  const section = document.getElementById('treatment-detail');
+  if (section) {
+    const headerOffset = 110;
+    const elementPosition = section.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: elementPosition - headerOffset, behavior: 'smooth' });
+  }
+}
+
 
 function buildTreatmentUrl(category: ServiceCategory, treatmentId: string): string {
   const params = new URLSearchParams();
@@ -30,9 +40,8 @@ function TabButton({ area, isActive, onClick }: TabButtonProps) {
   return (
     <button
       onClick={onClick}
-      class={`text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 transition-all ${colorClass.text} ${
-        isActive ? `${colorClass.border} font-medium` : 'border-transparent'
-      } hover:${colorClass.border}`}
+      class={`text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 transition-all ${colorClass.text} ${isActive ? `${colorClass.border} font-medium` : 'border-transparent'
+        } hover:${colorClass.border}`}
     >
       {area.label}
     </button>
@@ -83,7 +92,7 @@ function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc }: Tr
   const colors = categoryColors[category];
 
   return (
-    <div class="animate-fadeIn">
+    <div class="animate-fadeIn" id="treatment-detail">
       <a
         href={backHref}
         onClick={onBack}
@@ -188,7 +197,7 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
   const handleSelectTreatment = useCallback((e: Event, id: string) => {
     e.preventDefault();
     setTreatment(id);
-    scrollToSection();
+    setTimeout(() => scrollToTreatmentSection(), 0);
   }, [setTreatment]);
 
   const handleBack = useCallback((e: Event) => {
