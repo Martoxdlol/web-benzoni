@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'preact/hooks';
-import type { ServiceCategory } from '../types';
+import type { ServiceCategory } from '../../../../data/content';
 
 interface UrlState {
   tab: ServiceCategory;

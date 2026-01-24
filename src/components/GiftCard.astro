@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import giftcardImage from '../assets/images/general/giftcard.jpg';
+import { giftCardContent } from '../data/content';
 ---
 
 <section id="giftcard" class="py-20 bg-primary">
@@ -9,26 +10,21 @@ import giftcardImage from '../assets/images/general/giftcard.jpg';
       <!-- Content -->
       <div class="text-secondary">
         <h2 class="text-3xl lg:text-4xl font-light tracking-wide mb-8">
-          Gift Card
+          {giftCardContent.title}
         </h2>
 
-        <p class="text-base lg:text-lg leading-relaxed mb-6 text-secondary/90">
-          El regalo perfecto para quienes amas. Una <strong class="text-secondary">Gift Card de Benzoni</strong> es una invitación a vivir una experiencia de bienestar y cuidado personal.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-6 text-secondary/90">
-          Podés elegir entre nuestros <strong class="text-secondary">tratamientos faciales, corporales o experiencias wellness</strong>, y personalizar el obsequio según tus preferencias.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-8 text-secondary/90">
-          Un gesto único para celebrar momentos especiales: cumpleaños, aniversarios, o simplemente para demostrar cariño.
-        </p>
+        {giftCardContent.paragraphs.map((paragraph, index) => (
+          <p class:list={[
+            "text-base lg:text-lg leading-relaxed text-secondary/90",
+            index < giftCardContent.paragraphs.length - 1 ? "mb-6" : "mb-8"
+          ]} set:html={typeof paragraph === 'string' ? paragraph : paragraph.text} />
+        ))}
 
         <a
           href="#contacto"
           class="inline-block px-8 py-3 border border-secondary text-secondary text-sm tracking-widest uppercase hover:bg-secondary hover:text-primary transition-all duration-300"
         >
-          Consultar Gift Card
+          {giftCardContent.cta}
         </a>
       </div>
 
@@ -36,7 +32,7 @@ import giftcardImage from '../assets/images/general/giftcard.jpg';
       <div class="relative">
         <Image
           src={giftcardImage}
-          alt="Gift Card Benzoni"
+          alt={giftCardContent.imageAlt}
           class="w-full h-auto shadow-lg"
         />
       </div>

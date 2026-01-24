@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import cosmeticaImage from '../assets/images/general/cosmetica.jpg';
+import { dermocosmeticaContent } from '../data/content';
 ---
 
 <section id="dermocosmetica" class="py-20 bg-cream">
@@ -10,7 +11,7 @@ import cosmeticaImage from '../assets/images/general/cosmetica.jpg';
       <div class="relative">
         <Image
           src={cosmeticaImage}
-          alt="Línea Dermocosmética Benzoni"
+          alt={dermocosmeticaContent.imageAlt}
           class="w-full h-auto shadow-lg"
         />
       </div>
@@ -18,22 +19,21 @@ import cosmeticaImage from '../assets/images/general/cosmetica.jpg';
       <!-- Content -->
       <div class="text-navy">
         <h2 class="text-3xl lg:text-4xl font-light tracking-wide mb-8 text-primary">
-          Línea Dermocosmética
+          {dermocosmeticaContent.title}
         </h2>
 
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          Contamos con una <strong>línea de cosmética pensada para la mujer de hoy</strong>, una gran variedad de cremas y lociones para que tu piel luzca como siempre quisiste.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-8">
-          Productos seleccionados con <strong>activos de alta calidad</strong>, diseñados para complementar los tratamientos realizados en consultorio y mantener los resultados en casa.
-        </p>
+        {dermocosmeticaContent.paragraphs.map((paragraph, index) => (
+          <p class:list={[
+            "text-base lg:text-lg leading-relaxed",
+            index < dermocosmeticaContent.paragraphs.length - 1 ? "mb-6" : "mb-8"
+          ]} set:html={typeof paragraph === 'string' ? paragraph : paragraph.text} />
+        ))}
 
         <a
           href="#contacto"
           class="inline-block px-8 py-3 bg-primary text-secondary text-sm tracking-widest uppercase hover:bg-primary-dark transition-all duration-300"
         >
-          Más Información
+          {dermocosmeticaContent.cta}
         </a>
       </div>
     </div>

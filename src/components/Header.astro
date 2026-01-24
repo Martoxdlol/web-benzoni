@@ -1,13 +1,5 @@
 ---
-const menuItems = [
-  { label: "Quienes somos", href: "#nosotros" },
-  { label: "Conoce a la doctora", href: "#doctora" },
-  { label: "Nuestros servicios", href: "#servicios" },
-  { label: "Línea dermocosmética", href: "#dermocosmetica" },
-  { label: "Asesoramiento estético", href: "#asesoramiento" },
-  { label: "Gift Card", href: "#giftcard" },
-  { label: "Contacto", href: "#contacto" },
-];
+import { brandInfo, socialLinks, navigation } from '../data/content';
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-primary">
@@ -17,7 +9,7 @@ const menuItems = [
       <button
         id="menu-toggle"
         class="flex flex-col justify-center items-start gap-1.5 w-8 h-8 group"
-        aria-label="Abrir menú"
+        aria-label={navigation.ariaLabels.openMenu}
         aria-expanded="false"
       >
         <span
@@ -41,11 +33,11 @@ const menuItems = [
       <!-- Social Icons -->
       <div class="hidden sm:flex items-center gap-3">
         <a
-          href="https://wa.me/5491125436500"
+          href={socialLinks.whatsapp.url}
           target="_blank"
           rel="noopener noreferrer"
           class="text-secondary hover:text-white transition-colors"
-          aria-label="WhatsApp"
+          aria-label={socialLinks.whatsapp.label}
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
             <path
@@ -54,11 +46,11 @@ const menuItems = [
           </svg>
         </a>
         <a
-          href="https://instagram.com/consultoriobenzoni"
+          href={socialLinks.instagram.url}
           target="_blank"
           rel="noopener noreferrer"
           class="text-secondary hover:text-white transition-colors"
-          aria-label="Instagram"
+          aria-label={socialLinks.instagram.label}
         >
           <svg
             class="w-5 h-5"
@@ -75,9 +67,9 @@ const menuItems = [
           </svg>
         </a>
         <a
-          href="mailto:fabianabenzoni@gmail.com"
+          href={socialLinks.email.url}
           class="text-secondary hover:text-white transition-colors"
-          aria-label="Email"
+          aria-label={socialLinks.email.label}
         >
           <svg
             class="w-5 h-5"
@@ -99,7 +91,7 @@ const menuItems = [
         href="#inicio"
         class="text-secondary text-2xl lg:text-3xl tracking-[0.2em] font-light"
       >
-        BENZONI<sup class="text-xs">®</sup>
+        {brandInfo.name}<sup class="text-xs">{brandInfo.trademark}</sup>
       </a>
     </div>
   </div>
@@ -115,7 +107,7 @@ const menuItems = [
     <div class="flex items-start gap-6 mb-8">
       <nav class="flex flex-col gap-4">
         {
-          menuItems.map((item) => (
+          navigation.menuItems.map((item) => (
             <a
               href={item.href}
               class="menu-link text-secondary text-2xl lg:text-3xl font-light tracking-wide hover:text-white transition-colors"
@@ -129,7 +121,7 @@ const menuItems = [
   </div>
 </div>
 
-<script>
+<script is:inline define:vars={{ sectionLabels: navigation.sectionLabels }}>
   const menuToggle = document.getElementById("menu-toggle");
   const menuOverlay = document.getElementById("menu-overlay");
   const menuLinks = document.querySelectorAll(".menu-link");
@@ -169,17 +161,6 @@ const menuItems = [
   });
 
   // Dynamic section label based on scroll position
-  const sectionLabels: Record<string, string> = {
-    inicio: "",
-    nosotros: "Quienes somos",
-    doctora: "La Doctora",
-    servicios: "Servicios",
-    dermocosmetica: "Dermocosmética",
-    asesoramiento: "Asesoramiento",
-    giftcard: "Gift Card",
-    contacto: "Contacto",
-  };
-
   const currentSectionEl = document.getElementById("current-section");
   const sectionIds = Object.keys(sectionLabels);
 

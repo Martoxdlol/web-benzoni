@@ -1,5 +1,5 @@
 ---
-
+import { brandInfo, heroContent } from '../data/content';
 ---
 
 <section
@@ -12,8 +12,8 @@
       <h1
         class="text-secondary text-5xl min-[380px]:text-6xl min-[570px]:text-7xl md:text-9xl lg:text-[8rem] tracking-[0.15em] font-light mb-6"
       >
-        BENZONI<sup class="text-lg min-[380px]:text-xl md:text-2xl align-top"
-          >®</sup
+        {brandInfo.name}<sup class="text-lg min-[380px]:text-xl md:text-2xl align-top"
+          >{brandInfo.trademark}</sup
         >
       </h1>
       <div class="w-full h-px bg-secondary/50"></div>
@@ -23,21 +23,17 @@
     <p
       class="text-secondary text-lg md:text-xl lg:text-2xl tracking-widest font-light mb-4 uppercase text-balance"
     >
-      Consultorio Médico Estético & Bienestar
+      {heroContent.subtitle}
     </p>
 
-    <!-- Tagline -->
-    <p
-      class="text-secondary/90 text-base md:text-lg font-light tracking-wide mb-4 uppercase text-balance px-6"
-    >
-      Cuidado integral para la mujer actual
-    </p>
-
-    <p
-      class="text-secondary/90 text-base md:text-lg font-light tracking-wide mb-4 uppercase text-balance px-6"
-    >
-      Donde la ciencia, la tecnología y el bienestar se encuentran
-    </p>
+    <!-- Taglines -->
+    {heroContent.taglines.map((tagline) => (
+      <p
+        class="text-secondary/90 text-base md:text-lg font-light tracking-wide mb-4 uppercase text-balance px-6"
+      >
+        {tagline}
+      </p>
+    ))}
 
     <!-- CTA Button -->
     <div class="mt-12">
@@ -45,7 +41,7 @@
         href="#contacto"
         class="inline-block px-8 py-3 border border-secondary text-secondary text-sm tracking-widest uppercase hover:bg-secondary hover:text-primary transition-all duration-300"
       >
-        Agendar Consulta
+        {heroContent.cta}
       </a>
     </div>
   </div>

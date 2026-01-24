@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import cosmeticaImage from "../assets/images/general/asesoramiento-medico-estetico.jpg";
+import { asesoramientoContent } from "../data/content";
 ---
 
 <section id="asesoramiento" class="py-20 bg-light-lavender">
@@ -10,7 +11,7 @@ import cosmeticaImage from "../assets/images/general/asesoramiento-medico-esteti
       <div class="relative">
         <Image
           src={cosmeticaImage}
-          alt="Asesoramiento Dermatocosmético Personalizado"
+          alt={asesoramientoContent.imageAlt}
           class="w-full h-auto shadow-lg"
         />
       </div>
@@ -20,47 +21,24 @@ import cosmeticaImage from "../assets/images/general/asesoramiento-medico-esteti
         <h2
           class="text-3xl lg:text-4xl font-light tracking-wide mb-8 text-primary"
         >
-          Asesoramiento Dermatocosmético Personalizado
+          {asesoramientoContent.title}
         </h2>
 
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          Ofrezco <strong>asesoramiento dermatocosmético personalizado</strong>,
-          basado en una evaluación detallada de tu piel y sus necesidades
-          reales.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          A partir de ese diagnóstico, desarrollo <strong
-            >fórmulas y rutinas específicas</strong
-          >, utilizando activos de alta eficacia para acompañar cada etapa de la
-          piel con un enfoque médico, seguro y orientado al bienestar general.
-        </p>
+        {asesoramientoContent.paragraphs.map((paragraph) => (
+          <p class="text-base lg:text-lg leading-relaxed mb-6" set:html={typeof paragraph === 'string' ? paragraph : paragraph.text} />
+        ))}
 
         <div class="mt-8 p-6 bg-secondary/50 border-l-4 border-primary">
           <h3 class="text-lg font-medium text-primary mb-3">
-            El proceso incluye:
+            {asesoramientoContent.processTitle}
           </h3>
           <ul class="space-y-2 text-base">
-            <li class="flex items-start gap-2">
-              <span class="text-primary mt-1">•</span>
-              <span>Evaluación completa del estado de tu piel</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-primary mt-1">•</span>
-              <span>Diagnóstico de necesidades específicas</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-primary mt-1">•</span>
-              <span>Diseño de rutina personalizada</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-primary mt-1">•</span>
-              <span>Selección de activos dermocosméticos</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-primary mt-1">•</span>
-              <span>Seguimiento y ajustes según evolución</span>
-            </li>
+            {asesoramientoContent.processItems.map((item) => (
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

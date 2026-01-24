@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import doctorImage from "../assets/images/general/doctora.jpg";
+import { doctorContent } from "../data/content";
 ---
 
 <section id="doctora" class="py-20 bg-cream">
@@ -11,53 +12,22 @@ import doctorImage from "../assets/images/general/doctora.jpg";
         <h2
           class="text-3xl lg:text-4xl font-light tracking-wide mb-8 text-primary"
         >
-          Conoce a la Doctora
+          {doctorContent.title}
         </h2>
 
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          <strong
-            >Médica egresada de la Universidad de Buenos Aires en 1995</strong
-          >, con formación de posgrado en Flebología y Linfología.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          Durante varios años se desempeñó en esa especialidad, dedicándose al
-          tratamiento de <strong
-            >úlceras complejas por insuficiencia venosa crónica</strong
-          >.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          Con el tiempo, descubrió que su verdadera vocación estaba en el <strong
-            >cuidado estético integral de la mujer</strong
-          >, con una mirada centrada en el bienestar y la armonía.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          Realizó el <strong>posgrado en Medicina Estética y Antiaging</strong> en
-          la Universidad Kennedy, cursó estudios en <strong
-            >Nutrición y Obesidad</strong
-          > en la Asociación Médica Argentina.
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed mb-6">
-          Apasionada por la ciencia y el conocimiento, se formó también en <strong
-            >Química de los medicamentos utilizados por vía intradérmica</strong
-          >, en la Facultad de Medicina (UBA).
-        </p>
-
-        <p class="text-base lg:text-lg leading-relaxed">
-          Cuenta con <strong>certificación en Bioseguridad</strong> para el uso de
-          equipos láser y luz pulsada intensa, lo que garantiza un abordaje seguro
-          y actualizado en cada tratamiento.
-        </p>
+        {doctorContent.paragraphs.map((paragraph, index) => (
+          <p class:list={[
+            "text-base lg:text-lg leading-relaxed",
+            index < doctorContent.paragraphs.length - 1 ? "mb-6" : ""
+          ]} set:html={typeof paragraph === 'string' ? paragraph : paragraph.text} />
+        ))}
       </div>
 
       <!-- Image -->
       <div class="relative order-1 lg:order-2">
         <Image
           src={doctorImage}
-          alt="Dra. Fabiana Benzoni - Consultorio Médico Estético"
+          alt={doctorContent.imageAlt}
           class="w-full h-auto shadow-lg"
         />
       </div>

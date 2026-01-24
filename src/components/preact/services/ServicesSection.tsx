@@ -1,7 +1,7 @@
 import { useMemo, useCallback, useEffect } from 'preact/hooks';
 import { useUrlState } from './hooks/useUrlState';
-import { serviceAreas } from './data';
-import type { ServiceCategory, Treatment, ServiceArea } from './types';
+import { serviceAreas, servicesUiTexts } from '../../../data/content';
+import type { ServiceCategory, Treatment, ServiceArea } from '../../../data/content';
 
 function scrollToSection() {
   const section = document.getElementById('servicios');
@@ -100,7 +100,7 @@ function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment,
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          <span class="text-sm tracking-widest uppercase">Volver a tratamientos</span>
+          <span class="text-sm tracking-widest uppercase">{servicesUiTexts.backToTreatments}</span>
         </a>
         {nextTreatment && nextHref && (
           <a
@@ -108,7 +108,7 @@ function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment,
             onClick={onNext}
             class="inline-flex items-center gap-2 text-primary hover:opacity-70 transition-opacity"
           >
-            <span class="text-sm tracking-widest uppercase">Siguiente</span>
+            <span class="text-sm tracking-widest uppercase">{servicesUiTexts.next}</span>
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
@@ -132,7 +132,7 @@ function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment,
             href="#contacto"
             class="inline-block px-6 py-3 bg-primary text-white text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90"
           >
-            Consultar
+            {servicesUiTexts.inquire}
           </a>
         </div>
       </div>
@@ -172,8 +172,8 @@ function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListP
         <div class="order-2 lg:order-0 lg:col-span-3 space-y-4">
           <img
             src={heroImageSrc}
-            alt="Nuestros Servicios - Benzoni"
-            class="w-full h-auto object-cover shadow-lg lg:top-24"
+            alt={servicesUiTexts.servicesImageAlt}
+            class="w-full aspect-5/3 object-cover shadow-lg"
           />
           <p class="hidden lg:block text-lg leading-relaxed mb-8 text-primary">
             {area.description}
@@ -185,11 +185,11 @@ function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListP
 }
 
 interface ServicesSectionProps {
-  heroImageSrc: string;
+  heroImages: Record<string, string>;
   treatmentImages: Record<string, string>;
 }
 
-export default function ServicesSection({ heroImageSrc, treatmentImages }: ServicesSectionProps) {
+export default function ServicesSection({ heroImages, treatmentImages }: ServicesSectionProps) {
   const { tab, treatment, setTab, setTreatment, clearTreatment } = useUrlState();
 
   const currentArea = useMemo(() => serviceAreas.find((area) => area.id === tab)!, [tab]);
@@ -207,7 +207,7 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
   }, [treatment]);
 
   const getTreatmentImageSrc = (treatmentId: string): string => {
-    return treatmentImages[treatmentId] || heroImageSrc;
+    return treatmentImages[treatmentId] || heroImages[tab];
   };
 
   const handleSelectTreatment = useCallback((e: Event, id: string) => {
@@ -274,7 +274,7 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
       ) : (
         <TreatmentList
           area={currentArea}
-          heroImageSrc={heroImageSrc}
+          heroImageSrc={heroImages[currentArea.id]}
           onSelectTreatment={handleSelectTreatment}
         />
       )}
