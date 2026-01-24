@@ -1,5 +1,6 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
+import ServicesSection from './preact/services/ServicesSection';
 
 // Hero image
 import heroImage from '../assets/images/services/hero.jpg';
@@ -35,313 +36,68 @@ import reflexologiaImg from '../assets/images/services/wellness/reflexologia.jpg
 import sillaImg from '../assets/images/services/wellness/masaje-silla.jpg';
 import piedrasImg from '../assets/images/services/wellness/masaje-piedras-calientes.jpg';
 
-const facialTreatments = [
-  { id: "limpieza-facial", title: "Limpieza facial profunda", description: "Renueva la piel en profundidad, eliminando impurezas y células muertas. Mejora la textura, la oxigenación y la luminosidad, preparando el rostro para absorber mejor los activos y tratamientos posteriores." },
-  { id: "cicatrices", title: "Tratamiento cicatrices", description: "Protocolos personalizados para atenuar cicatrices de acné, quirúrgicas o traumáticas. Combinamos tecnología fraccionada, bioestimulación y cuidado médico para mejorar textura, color y uniformidad de la piel." },
-  { id: "toxina", title: "Toxina botulínica", description: "Relaja las líneas de expresión y suaviza arrugas dinámicas con resultados naturales y equilibrados. Permite armonizar el rostro, aplicando en áreas no convencionales, manteniendo frescura y expresividad." },
-  { id: "fillers", title: "Fillers con ácido Hialurónico", description: "Labios, mentón, efecto Contouring: Reponen volumen y definen contornos en labios, mentón o pómulos. Permiten realzar facciones y devolver firmeza, con resultados inmediatos y naturales, respetando la armonía facial." },
-  { id: "bioestimulacion", title: "Bioestimulación inyectable", description: "Profhilo, Sculptra, HarmonicA, Radiesse. Estos activos llegaron para quedarse. Activan los procesos naturales de regeneración del colágeno y la elastina. Mejoran firmeza, densidad y calidad de la piel desde el interior, logrando un rejuvenecimiento progresivo y duradero." },
-  { id: "hifu", title: "HIFU (Ultrasonido Focalizado de Alta Intensidad)", description: "Esta tecnología estimula la producción de colágeno a nivel profundo, logrando un efecto lifting sin cirugía. Mejora la firmeza y redefine el óvalo facial con resultados graduales y naturales." },
-  { id: "fraxel", title: "Fraxel", description: "Radiofrecuencia Fraccionada. Favorece la regeneración de la piel mediante energía térmica controlada. Reduce poros, mejora textura, luminosidad y firmeza, promoviendo una renovación profunda y uniforme." },
-  { id: "luz-pulsada", title: "Luz Pulsada Intensa", description: "Una tecnología versátil que trata múltiples alteraciones de la piel: manchas, rosácea, acné y signos del fotoenvejecimiento. Mejora la calidad cutánea al afinar poros, aportar luminosidad y unificar el tono, dejando la piel más clara, pareja y saludable." },
-  { id: "spider", title: "Spider, Radiofrecuencia coagulativa", description: "Tecnología médica precisa y segura para tratar telangiectasias, pequeñas arañitas vasculares y capilares visibles en rostro y piernas. Su acción coagulativa actúa directamente sobre el vaso sin dañar la piel circundante, logrando resultados inmediatos. Es ideal para personas con rosácea o enrojecimientos persistentes." },
-];
+// Optimize images for client-side use
+const optimizedHero = await getImage({ src: heroImage, format: 'webp' });
 
-const bodyTreatments = [
-  { id: "masajes-modeladores", title: "Masajes modeladores", description: "Circulatorios y reductores. Técnicas manuales específicas que estimulan la circulación, mejoran el drenaje linfático y ayudan a remodelar contornos. Favorecen la oxigenación de los tejidos y potencian los resultados de los tratamientos tecnológicos." },
-  { id: "lipolaser", title: "Lipolaser", description: "Tecnología que utiliza luz láser de baja intensidad para favorecer la liberación de grasa localizada. Mejora el aspecto de la piel y redefine zonas del cuerpo sin procedimientos invasivos." },
-  { id: "body-up", title: "Body Up (ondas electromagnéticas)", description: "Estimula la contracción muscular profunda mediante impulsos electromagnéticos de alta intensidad. Ayuda a tonificar, elevar y fortalecer la musculatura, mejorando la firmeza corporal." },
-  { id: "termo-slim", title: "Termo Slim (termoterapia)", description: "Emplea calor controlado para activar la circulación y estimular el metabolismo local. Favorece la reducción de adiposidad y la eliminación de toxinas, dejando una piel más suave y uniforme. Posee, además, programas de contracción muscular que la hace una opción imprescindible en el consultorio de modelación corporal." },
-  { id: "electroterapia", title: "Electroterapia", description: "Ondas rusas, interferenciales, cuadradas. Utiliza corrientes eléctricas moduladas para mejorar tono muscular, circulación y drenaje. Ideal para tratar flaccidez, retención de líquidos y modelar el contorno corporal." },
-  { id: "presoterapia", title: "Presoterapia secuencial", description: "Mediante presión de aire controlada, estimula el drenaje linfático y el retorno venoso. Alivia la sensación de piernas cansadas, reduce edemas y favorece la eliminación de toxinas." },
-  { id: "radiofrecuencia", title: "Radiofrecuencia monopolar y tripolar", description: "Activa la producción de colágeno y elastina mediante energía térmica profunda. Reafirma la piel, mejora su textura y atenúa la flaccidez, brindando un efecto tensor progresivo y natural." },
-  { id: "rf-fraccionada", title: "Radiofrecuencia Fraccionada", description: "Combina calor y microestimulación en profundidad para mejorar la firmeza y la calidad de la piel corporal. Ideal para tratar flaccidez localizada, estrías y textura irregular." },
-  { id: "ultra-cavitacion", title: "Ultra cavitación", description: "Tecnología que actúa sobre los cúmulos de grasa localizada mediante ondas ultrasónicas de baja frecuencia, favoreciendo su eliminación natural." },
-  { id: "depilacion", title: "Depilación Definitiva", description: "La tecnología más avanzada en depilación definitiva. Soprano Titanium combina tres longitudes de onda para eliminar el vello de forma segura, eficaz y duradera, cuidando al mismo tiempo la piel. Apta para todo tipo de piel, incluso las bronceadas, y en cualquier época del año. Su sistema de enfriamiento permite sesiones cómodas y prácticamente indoloras, dejando una piel más suave, uniforme y saludable." },
-];
-
-const wellnessTreatments = [
-  { id: "descontracturante", title: "Masaje Descontracturante", description: "Alivia tensiones musculares profundas y zonas de dolor acumulado. Favorece la relajación del cuerpo, mejora la postura y recupera la movilidad, brindando sensación de bienestar inmediato." },
-  { id: "californiano", title: "Masaje Californiano", description: "Movimientos largos, suaves y fluidos que generan un profundo efecto relajante. Estimula la circulación, disminuye el estrés y promueve armonía entre cuerpo y mente." },
-  { id: "ayurvedico", title: "Masaje Ayurvédico", description: "Inspirado en la medicina tradicional india, combina técnicas de presión y estiramiento con aceites específicos. Equilibra energía, mejora la circulación y revitaliza cuerpo y mente." },
-  { id: "reflexologia", title: "Reflexología", description: "Tratamiento de los pies que activa puntos reflejos relacionados con distintos órganos y sistemas. Ayuda a equilibrar funciones corporales, liberar tensiones y promover bienestar integral." },
-  { id: "silla", title: "Masaje de cabeza, cuello y espalda alta en silla ergonómica", description: "Sesión rápida y efectiva para aliviar tensiones acumuladas en zonas clave. Ideal para desconectarse, reducir estrés y mejorar la movilidad postural, incluso en la rutina diaria." },
-  { id: "piedras", title: "Masaje con piedras calientes y armonización sonora con cuencos", description: "Experiencia que combina el calor terapéutico de las piedras con las vibraciones sonoras de los cuencos tibetanos. Relaja profundamente músculos y mente, equilibrando la energía del cuerpo." },
-];
-
-// Image mapping for modal
-const treatmentImages: Record<string, ImageMetadata> = {
-  // Facial
-  "limpieza-facial": limpiezaFacialImg,
-  "cicatrices": cicatricesImg,
-  "toxina": toxinaImg,
-  "fillers": fillersImg,
-  "bioestimulacion": bioestimulacionImg,
-  "hifu": hifuImg,
-  "fraxel": fraxelImg,
-  "luz-pulsada": luzPulsadaImg,
-  "spider": spiderImg,
-  // Corporal
-  "masajes-modeladores": masajesModeladoresImg,
-  "lipolaser": lipolaserImg,
-  "body-up": bodyUpImg,
-  "termo-slim": termoSlimImg,
-  "electroterapia": electroterapiaImg,
-  "presoterapia": presoterapiaImg,
-  "radiofrecuencia": radiofrecuenciaImg,
-  "rf-fraccionada": rfFraccionadaImg,
-  "ultra-cavitacion": ultraCavitacionImg,
-  "depilacion": depilacionImg,
-  // Wellness
-  "descontracturante": descontracturanteImg,
-  "californiano": californianoImg,
-  "ayurvedico": ayurvedicoImg,
-  "reflexologia": reflexologiaImg,
-  "silla": sillaImg,
-  "piedras": piedrasImg,
+const treatmentImageMap = {
+  'limpieza-facial': limpiezaFacialImg,
+  'cicatrices': cicatricesImg,
+  'toxina': toxinaImg,
+  'fillers': fillersImg,
+  'bioestimulacion': bioestimulacionImg,
+  'hifu': hifuImg,
+  'fraxel': fraxelImg,
+  'luz-pulsada': luzPulsadaImg,
+  'spider': spiderImg,
+  'masajes-modeladores': masajesModeladoresImg,
+  'lipolaser': lipolaserImg,
+  'body-up': bodyUpImg,
+  'termo-slim': termoSlimImg,
+  'electroterapia': electroterapiaImg,
+  'presoterapia': presoterapiaImg,
+  'radiofrecuencia': radiofrecuenciaImg,
+  'rf-fraccionada': rfFraccionadaImg,
+  'ultra-cavitacion': ultraCavitacionImg,
+  'depilacion': depilacionImg,
+  'descontracturante': descontracturanteImg,
+  'californiano': californianoImg,
+  'ayurvedico': ayurvedicoImg,
+  'reflexologia': reflexologiaImg,
+  'silla': sillaImg,
+  'piedras': piedrasImg,
 };
 
-const allTreatments = [...facialTreatments, ...bodyTreatments, ...wellnessTreatments];
+// Optimize all treatment images
+const treatmentImages: Record<string, string> = {};
+for (const [id, img] of Object.entries(treatmentImageMap)) {
+  const optimized = await getImage({ src: img, format: 'webp' });
+  treatmentImages[id] = optimized.src;
+}
 ---
 
 <section id="servicios" class="py-20 bg-secondary">
   <div class="max-w-7xl mx-auto px-6 lg:px-12">
-    <!-- Tabs -->
-    <div class="flex flex-wrap justify-center gap-4 lg:gap-12 mb-8">
-      <button
-        class="tab-btn text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 border-transparent transition-all text-primary hover:border-primary data-[active=true]:border-primary data-[active=true]:font-medium"
-        data-tab="facial"
-        data-active="true"
-      >
-        Área Médica Facial
-      </button>
-      <button
-        class="tab-btn text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 border-transparent transition-all text-accent-green hover:border-accent-green data-[active=true]:border-accent-green data-[active=true]:font-medium"
-        data-tab="corporal"
-      >
-        Área Corporal
-      </button>
-      <button
-        class="tab-btn text-sm lg:text-base tracking-widest uppercase pb-2 border-b-2 border-transparent transition-all text-accent-teal hover:border-accent-teal data-[active=true]:border-accent-teal data-[active=true]:font-medium"
-        data-tab="wellness"
-      >
-        Área Wellness
-      </button>
-    </div>
-
-    <!-- Hero Image -->
-    <div class="mb-12">
-      <Image
-        src={heroImage}
-        alt="Nuestros Servicios - Benzoni"
-        class="w-full h-64 lg:h-96 object-cover shadow-lg"
-      />
-    </div>
-
-    <!-- Tab Content: Facial -->
-    <div class="tab-content" data-content="facial">
-      <div class="text-primary mb-8">
-        <p class="text-base lg:text-lg leading-relaxed max-w-4xl">
-          Abordamos la salud y belleza de la piel con procedimientos médicos seguros, mínimamente invasivos y de alta eficacia. Cada tratamiento se adapta a las necesidades de tu piel, combinando activos dermocosméticos, tecnología y técnica médica. Buscamos resultados naturales: una piel más firme, luminosa y equilibrada.
-        </p>
-      </div>
-      <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {facialTreatments.map((treatment) => (
-          <li>
-            <button
-              class="treatment-btn w-full text-left p-4 bg-cream hover:bg-primary hover:text-secondary transition-all duration-300 text-primary"
-              data-treatment={treatment.id}
-              data-category="facial"
-            >
-              <span class="font-medium">• {treatment.title}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- Tab Content: Corporal -->
-    <div class="tab-content hidden" data-content="corporal">
-      <div class="text-accent-green mb-8">
-        <p class="text-base lg:text-lg leading-relaxed max-w-4xl">
-          Cada tratamiento comienza con un diagnóstico personalizado y seguimiento médico realizado por mí, para garantizar resultados seguros y adaptados a tus objetivos. Las sesiones integran masajes manuales específicos con tecnologías de última generación, orientadas a modelar, tonificar y mejorar la textura de la piel. Un abordaje integral que promueve armonía, bienestar y confianza en tu cuerpo.
-        </p>
-      </div>
-      <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {bodyTreatments.map((treatment) => (
-          <li>
-            <button
-              class="treatment-btn w-full text-left p-4 bg-cream hover:bg-accent-green hover:text-white transition-all duration-300 text-accent-green"
-              data-treatment={treatment.id}
-              data-category="corporal"
-            >
-              <span class="font-medium">• {treatment.title}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- Tab Content: Wellness -->
-    <div class="tab-content hidden" data-content="wellness">
-      <div class="text-accent-teal mb-8">
-        <p class="text-base lg:text-lg leading-relaxed max-w-4xl">
-          Un espacio pensado para detener el ritmo y reconectarte con tu bienestar. Las experiencias combinan técnicas manuales, aromaterapia y rituales sensoriales que alivian tensiones, mejoran la circulación y renuevan la energía. Una invitación a cuidar el cuerpo y la mente con serenidad.
-        </p>
-      </div>
-      <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {wellnessTreatments.map((treatment) => (
-          <li>
-            <button
-              class="treatment-btn w-full text-left p-4 bg-cream hover:bg-accent-teal hover:text-white transition-all duration-300 text-accent-teal"
-              data-treatment={treatment.id}
-              data-category="wellness"
-            >
-              <span class="font-medium">• {treatment.title}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ServicesSection
+      client:load
+      heroImageSrc={optimizedHero.src}
+      treatmentImages={treatmentImages}
+    />
   </div>
 </section>
 
-<!-- Treatment Detail Modal -->
-<div
-  id="treatment-modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4"
->
-  <div class="bg-secondary max-w-4xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
-    <button
-      id="modal-close"
-      class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-navy hover:text-primary transition-colors z-10"
-      aria-label="Cerrar"
-    >
-      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 6L6 18M6 6l12 12"></path>
-      </svg>
-    </button>
-
-    <div class="grid lg:grid-cols-2">
-      <div id="modal-image-container" class="relative h-64 lg:h-full min-h-[300px]">
-        <!-- Image will be inserted here -->
-      </div>
-      <div class="p-8">
-        <h3 id="modal-title" class="text-2xl lg:text-3xl font-light text-primary mb-6"></h3>
-        <p id="modal-description" class="text-base lg:text-lg leading-relaxed text-navy"></p>
-        <div class="mt-8">
-          <a
-            href="#contacto"
-            id="modal-cta"
-            class="inline-block px-6 py-3 bg-primary text-secondary text-sm tracking-widest uppercase hover:bg-primary-dark transition-all duration-300"
-          >
-            Consultar
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Treatment data for JavaScript -->
-<script define:vars={{ allTreatments, treatmentImages }}>
-  window.treatmentsData = allTreatments;
-  window.treatmentImagesData = treatmentImages;
-</script>
-
-<script>
-  // Tab functionality
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.getAttribute('data-tab');
-
-      tabBtns.forEach(b => b.setAttribute('data-active', 'false'));
-      btn.setAttribute('data-active', 'true');
-
-      tabContents.forEach(content => {
-        if (content.getAttribute('data-content') === tab) {
-          content.classList.remove('hidden');
-        } else {
-          content.classList.add('hidden');
-        }
-      });
-    });
-  });
-
-  // Modal functionality
-  const modal = document.getElementById('treatment-modal');
-  const modalClose = document.getElementById('modal-close');
-  const modalTitle = document.getElementById('modal-title');
-  const modalDescription = document.getElementById('modal-description');
-  const modalImageContainer = document.getElementById('modal-image-container');
-  const modalCta = document.getElementById('modal-cta');
-  const treatmentBtns = document.querySelectorAll('.treatment-btn');
-
-  // Color mapping for categories
-  const categoryColors: Record<string, string> = {
-    facial: 'bg-primary',
-    corporal: 'bg-accent-green',
-    wellness: 'bg-accent-teal'
-  };
-
-  treatmentBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const treatmentId = btn.getAttribute('data-treatment');
-      const category = btn.getAttribute('data-category');
-      const treatments = (window as any).treatmentsData;
-      const images = (window as any).treatmentImagesData;
-
-      const treatment = treatments.find((t: any) => t.id === treatmentId);
-
-      if (treatment) {
-        if (modalTitle) modalTitle.textContent = treatment.title;
-        if (modalDescription) modalDescription.textContent = treatment.description;
-
-        // Update CTA button color
-        if (modalCta && category) {
-          modalCta.className = `inline-block px-6 py-3 text-secondary text-sm tracking-widest uppercase transition-all duration-300 ${categoryColors[category]} hover:opacity-90`;
-        }
-
-        // Set image
-        if (modalImageContainer && treatmentId && images[treatmentId]) {
-          const imgData = images[treatmentId];
-          modalImageContainer.innerHTML = `<img src="${imgData.src}" alt="${treatment.title}" class="w-full h-full object-cover" />`;
-        }
-
-        // Show modal
-        if (modal) {
-          modal.classList.remove('hidden');
-          modal.classList.add('flex');
-          document.body.style.overflow = 'hidden';
-        }
-      }
-    });
-  });
-
-  // Close modal
-  function closeModal() {
-    if (modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.body.style.overflow = '';
+<style is:global>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  modalClose?.addEventListener('click', closeModal);
-
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal?.classList.contains('flex')) {
-      closeModal();
-    }
-  });
-
-  // Close modal when clicking CTA
-  modalCta?.addEventListener('click', closeModal);
-</script>
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+</style>
