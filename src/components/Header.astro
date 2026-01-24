@@ -126,6 +126,11 @@ import { brandInfo, socialLinks, navigation } from '../data/content';
   const menuOverlay = document.getElementById("menu-overlay");
   const menuLinks = document.querySelectorAll(".menu-link");
 
+  // Posthog tracking helper
+  function trackEvent(event, properties) {
+    window.posthog?.capture(event, properties);
+  }
+
   function toggleMenu() {
     const isOpen = menuOverlay?.classList.contains("opacity-100");
 
@@ -134,22 +139,50 @@ import { brandInfo, socialLinks, navigation } from '../data/content';
       menuOverlay?.classList.add("opacity-0", "invisible");
       menuToggle?.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
+      trackEvent("mobile_menu_closed");
     } else {
       menuOverlay?.classList.remove("opacity-0", "invisible");
       menuOverlay?.classList.add("opacity-100", "visible");
       menuToggle?.setAttribute("aria-expanded", "true");
       document.body.style.overflow = "hidden";
+      trackEvent("mobile_menu_opened");
     }
   }
 
   menuToggle?.addEventListener("click", toggleMenu);
 
   menuLinks.forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (e) => {
+      const target = e.currentTarget;
+      const href = target.getAttribute("href");
+      const label = target.textContent?.trim();
+      trackEvent("navigation_clicked", {
+        destination: href,
+        label: label,
+        location: "mobile_menu",
+      });
       menuOverlay?.classList.remove("opacity-100", "visible");
       menuOverlay?.classList.add("opacity-0", "invisible");
       menuToggle?.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
+    });
+  });
+
+  // Track header social links
+  document.querySelectorAll("header a[target='_blank'], header a[href^='mailto:']").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const target = e.currentTarget;
+      const href = target.getAttribute("href");
+      const ariaLabel = target.getAttribute("aria-label");
+      let channel = "unknown";
+      if (href?.includes("whatsapp") || href?.includes("wa.me")) channel = "whatsapp";
+      else if (href?.includes("instagram")) channel = "instagram";
+      else if (href?.includes("mailto:")) channel = "email";
+      trackEvent("social_link_clicked", {
+        channel: channel,
+        label: ariaLabel,
+        location: "header",
+      });
     });
   });
 

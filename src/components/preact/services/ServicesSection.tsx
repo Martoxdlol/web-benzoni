@@ -29,6 +29,19 @@ function buildTreatmentUrl(category: ServiceCategory, treatmentId: string): stri
   return `?${params.toString()}#servicios`;
 }
 
+// Posthog tracking helper
+declare global {
+  interface Window {
+    posthog?: {
+      capture: (event: string, properties?: Record<string, unknown>) => void;
+    };
+  }
+}
+
+function trackEvent(event: string, properties?: Record<string, unknown>) {
+  window.posthog?.capture(event, properties);
+}
+
 interface TabButtonProps {
   area: ServiceArea;
   isActive: boolean;
@@ -36,9 +49,17 @@ interface TabButtonProps {
 }
 
 function TabButton({ area, isActive, onClick }: TabButtonProps) {
+  const handleClick = () => {
+    trackEvent('service_tab_clicked', {
+      category: area.id,
+      category_label: area.label,
+    });
+    onClick();
+  };
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       class={`text-xl tracking-widest uppercase pb-2 border-b-2 transition-all text-primary ${isActive ? 'border-primary font-medium' : 'border-transparent'
         } hover:border-primary`}
     >
@@ -56,11 +77,20 @@ interface TreatmentLinkProps {
 function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) {
   const href = buildTreatmentUrl(category, treatment.id);
 
+  const handleClick = (e: Event) => {
+    trackEvent('treatment_selected', {
+      treatment_id: treatment.id,
+      treatment_title: treatment.title,
+      category: category,
+    });
+    onNavigate(e, treatment.id);
+  };
+
   return (
     <li class="border-b border-secondary/30 last:border-b-0">
       <a
         href={href}
-        onClick={(e) => onNavigate(e, treatment.id)}
+        onClick={handleClick}
         class="group flex items-center gap-3 py-2 text-primary transition-colors hover:opacity-80 text-xl text-balance"
       >
         <svg
@@ -80,6 +110,7 @@ function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) 
 
 interface TreatmentDetailProps {
   treatment: Treatment;
+  category: ServiceCategory;
   onBack: (e: Event) => void;
   backHref: string;
   imageSrc: string;
@@ -88,13 +119,41 @@ interface TreatmentDetailProps {
   nextHref: string | null;
 }
 
-function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment, onNext, nextHref }: TreatmentDetailProps) {
+function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc, nextTreatment, onNext, nextHref }: TreatmentDetailProps) {
+  const handleBack = (e: Event) => {
+    trackEvent('treatment_back_clicked', {
+      from_treatment_id: treatment.id,
+      from_treatment_title: treatment.title,
+      category: category,
+    });
+    onBack(e);
+  };
+
+  const handleNext = (e: Event) => {
+    trackEvent('treatment_next_clicked', {
+      from_treatment_id: treatment.id,
+      from_treatment_title: treatment.title,
+      to_treatment_id: nextTreatment?.id,
+      to_treatment_title: nextTreatment?.title,
+      category: category,
+    });
+    onNext(e);
+  };
+
+  const handleInquiry = () => {
+    trackEvent('treatment_inquiry_clicked', {
+      treatment_id: treatment.id,
+      treatment_title: treatment.title,
+      category: category,
+    });
+  };
+
   return (
     <div class="animate-fadeIn" id="treatment-detail">
       <div class="flex items-center justify-between mb-8">
         <a
           href={backHref}
-          onClick={onBack}
+          onClick={handleBack}
           class="inline-flex items-center gap-2 text-primary hover:opacity-70 transition-opacity"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -105,7 +164,7 @@ function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment,
         {nextTreatment && nextHref && (
           <a
             href={nextHref}
-            onClick={onNext}
+            onClick={handleNext}
             class="inline-flex items-center gap-2 text-primary hover:opacity-70 transition-opacity"
           >
             <span class="text-sm tracking-widest uppercase">{servicesUiTexts.next}</span>
@@ -130,6 +189,7 @@ function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment,
           <p class="text-base lg:text-lg leading-relaxed text-navy mb-8">{treatment.description}</p>
           <a
             href="#contacto"
+            onClick={handleInquiry}
             class="inline-block px-6 py-3 bg-primary text-white text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90"
           >
             {servicesUiTexts.inquire}
@@ -264,6 +324,7 @@ export default function ServicesSection({ heroImages, treatmentImages }: Service
       {selectedTreatment ? (
         <TreatmentDetail
           treatment={selectedTreatment.treatment}
+          category={selectedTreatment.category}
           onBack={handleBack}
           backHref={backHref}
           imageSrc={getTreatmentImageSrc(selectedTreatment.treatment.id)}

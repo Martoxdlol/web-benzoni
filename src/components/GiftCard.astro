@@ -22,6 +22,7 @@ import { giftCardContent } from '../data/content';
 
         <a
           href="#contacto"
+          id="giftcard-cta"
           class="inline-block px-8 py-3 border border-secondary text-secondary text-sm tracking-widest uppercase hover:bg-secondary hover:text-primary transition-all duration-300"
         >
           {giftCardContent.cta}
@@ -39,3 +40,13 @@ import { giftCardContent } from '../data/content';
     </div>
   </div>
 </section>
+
+<script is:inline>
+  document.getElementById("giftcard-cta")?.addEventListener("click", () => {
+    window.posthog?.capture("cta_clicked", {
+      cta_text: "Consultar Gift Card",
+      section: "giftcard",
+      destination: "#contacto",
+    });
+  });
+</script>

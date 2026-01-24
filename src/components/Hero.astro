@@ -39,6 +39,7 @@ import { brandInfo, heroContent } from '../data/content';
     <div class="mt-12">
       <a
         href="#contacto"
+        id="hero-cta"
         class="inline-block px-8 py-3 border border-secondary text-secondary text-sm tracking-widest uppercase hover:bg-secondary hover:text-primary transition-all duration-300"
       >
         {heroContent.cta}
@@ -46,3 +47,13 @@ import { brandInfo, heroContent } from '../data/content';
     </div>
   </div>
 </section>
+
+<script is:inline>
+  document.getElementById("hero-cta")?.addEventListener("click", () => {
+    window.posthog?.capture("cta_clicked", {
+      cta_text: "Agendar Consulta",
+      section: "hero",
+      destination: "#contacto",
+    });
+  });
+</script>

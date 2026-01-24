@@ -31,6 +31,7 @@ import { dermocosmeticaContent } from '../data/content';
 
         <a
           href="#contacto"
+          id="dermocosmetica-cta"
           class="inline-block px-8 py-3 bg-primary text-secondary text-sm tracking-widest uppercase hover:bg-primary-dark transition-all duration-300"
         >
           {dermocosmeticaContent.cta}
@@ -39,3 +40,13 @@ import { dermocosmeticaContent } from '../data/content';
     </div>
   </div>
 </section>
+
+<script is:inline>
+  document.getElementById("dermocosmetica-cta")?.addEventListener("click", () => {
+    window.posthog?.capture("cta_clicked", {
+      cta_text: "Más Información",
+      section: "dermocosmetica",
+      destination: "#contacto",
+    });
+  });
+</script>
