@@ -1,6 +1,6 @@
 import { useMemo, useCallback, useEffect } from 'preact/hooks';
 import { useUrlState } from './hooks/useUrlState';
-import { serviceAreas, categoryColors } from './data';
+import { serviceAreas } from './data';
 import type { ServiceCategory, Treatment, ServiceArea } from './types';
 
 function scrollToSection() {
@@ -36,14 +36,11 @@ interface TabButtonProps {
 }
 
 function TabButton({ area, isActive, onClick }: TabButtonProps) {
-  const colorClass = categoryColors[area.id];
   return (
     <button
       onClick={onClick}
-      class={`text-xl tracking-widest uppercase pb-2 border-b-2 transition-all ${colorClass.text} ${isActive ? `${colorClass.border} font-medium` : 'border-transparent'
-        } hover:${colorClass.border}`}
-      style={{
-      }}
+      class={`text-xl tracking-widest uppercase pb-2 border-b-2 transition-all text-primary ${isActive ? 'border-primary font-medium' : 'border-transparent'
+        } hover:border-primary`}
     >
       {area.label}
     </button>
@@ -57,7 +54,6 @@ interface TreatmentLinkProps {
 }
 
 function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) {
-  const colors = categoryColors[category];
   const href = buildTreatmentUrl(category, treatment.id);
 
   return (
@@ -65,10 +61,10 @@ function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) 
       <a
         href={href}
         onClick={(e) => onNavigate(e, treatment.id)}
-        class={`group flex items-center gap-3 py-2 ${colors.text} transition-colors hover:opacity-80 text-xl text-balance`}
+        class="group flex items-center gap-3 py-2 text-primary transition-colors hover:opacity-80 text-xl text-balance"
       >
         <svg
-          class={`w-4 h-4 shrink-0 ${colors.text}`}
+          class="w-4 h-4 shrink-0 text-primary"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -84,7 +80,6 @@ function TreatmentLink({ treatment, category, onNavigate }: TreatmentLinkProps) 
 
 interface TreatmentDetailProps {
   treatment: Treatment;
-  category: ServiceCategory;
   onBack: (e: Event) => void;
   backHref: string;
   imageSrc: string;
@@ -93,16 +88,14 @@ interface TreatmentDetailProps {
   nextHref: string | null;
 }
 
-function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc, nextTreatment, onNext, nextHref }: TreatmentDetailProps) {
-  const colors = categoryColors[category];
-
+function TreatmentDetail({ treatment, onBack, backHref, imageSrc, nextTreatment, onNext, nextHref }: TreatmentDetailProps) {
   return (
     <div class="animate-fadeIn" id="treatment-detail">
       <div class="flex items-center justify-between mb-8">
         <a
           href={backHref}
           onClick={onBack}
-          class={`inline-flex items-center gap-2 ${colors.text} hover:opacity-70 transition-opacity`}
+          class="inline-flex items-center gap-2 text-primary hover:opacity-70 transition-opacity"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -113,7 +106,7 @@ function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc, next
           <a
             href={nextHref}
             onClick={onNext}
-            class={`inline-flex items-center gap-2 ${colors.text} hover:opacity-70 transition-opacity`}
+            class="inline-flex items-center gap-2 text-primary hover:opacity-70 transition-opacity"
           >
             <span class="text-sm tracking-widest uppercase">Siguiente</span>
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -133,11 +126,11 @@ function TreatmentDetail({ treatment, category, onBack, backHref, imageSrc, next
         </div>
 
         <div>
-          <h3 class={`text-2xl lg:text-3xl font-light mb-6 ${colors.text}`}>{treatment.title}</h3>
+          <h3 class="text-2xl lg:text-3xl font-light mb-6 text-primary">{treatment.title}</h3>
           <p class="text-base lg:text-lg leading-relaxed text-navy mb-8">{treatment.description}</p>
           <a
             href="#contacto"
-            class={`inline-block px-6 py-3 ${colors.bg} text-white text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90`}
+            class="inline-block px-6 py-3 bg-primary text-white text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90"
           >
             Consultar
           </a>
@@ -154,12 +147,10 @@ interface TreatmentListProps {
 }
 
 function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListProps) {
-  const colors = categoryColors[area.id];
-
   return (
     <div class="animate-fadeIn">
       <div class="flex flex-col lg:grid lg:grid-cols-5 gap-8 lg:gap-12">
-        <p class={`order-1 lg:hidden text-base leading-relaxed ${colors.text}`}>
+        <p class="order-1 lg:hidden text-base leading-relaxed text-primary">
           {area.description}
         </p>
 
@@ -182,9 +173,9 @@ function TreatmentList({ area, heroImageSrc, onSelectTreatment }: TreatmentListP
           <img
             src={heroImageSrc}
             alt="Nuestros Servicios - Benzoni"
-            class="w-full h-auto object-cover shadow-lg lg:sticky lg:top-24"
+            class="w-full h-auto object-cover shadow-lg lg:top-24"
           />
-          <p class={`hidden lg:block text-lg leading-relaxed mb-8 ${colors.text}`}>
+          <p class="hidden lg:block text-lg leading-relaxed mb-8 text-primary">
             {area.description}
           </p>
         </div>
@@ -273,7 +264,6 @@ export default function ServicesSection({ heroImageSrc, treatmentImages }: Servi
       {selectedTreatment ? (
         <TreatmentDetail
           treatment={selectedTreatment.treatment}
-          category={selectedTreatment.category}
           onBack={handleBack}
           backHref={backHref}
           imageSrc={getTreatmentImageSrc(selectedTreatment.treatment.id)}

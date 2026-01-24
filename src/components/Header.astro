@@ -8,7 +8,6 @@ const menuItems = [
   { label: "Gift Card", href: "#giftcard" },
   { label: "Contacto", href: "#contacto" },
 ];
-
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-primary">
@@ -31,15 +30,16 @@ const menuItems = [
           class="block w-6 h-0.5 bg-secondary transition-all duration-300 group-hover:w-4"
         ></span>
       </button>
-      <span id="current-section" class="text-secondary text-xl font-light tracking-wide"
-        >Inicio</span
-      >
+      <span
+        id="current-section"
+        class="hidden min-[400px]:flex text-secondary text-xl font-light tracking-wide line-clamp-1 whitespace-nowrap"
+      ></span>
     </div>
 
     <!-- Social Icons + Logo -->
     <div class="flex items-center gap-4 lg:gap-6">
       <!-- Social Icons -->
-      <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-3">
         <a
           href="https://wa.me/5491125436500"
           target="_blank"
@@ -170,7 +170,7 @@ const menuItems = [
 
   // Dynamic section label based on scroll position
   const sectionLabels: Record<string, string> = {
-    inicio: "Inicio",
+    inicio: "",
     nosotros: "Quienes somos",
     doctora: "La Doctora",
     servicios: "Servicios",
@@ -198,7 +198,7 @@ const menuItems = [
     }
 
     if (currentSectionEl) {
-      currentSectionEl.textContent = sectionLabels[currentSection] || "Inicio";
+      currentSectionEl.textContent = sectionLabels[currentSection] || "";
     }
   }
 
