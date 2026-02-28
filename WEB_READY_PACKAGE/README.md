@@ -39,7 +39,7 @@ WEB_READY_PACKAGE/
 - Hyaluronic acid fillers
 - Injectable bioestimulation (Profhilo, Sculptra, HarmonicA, Radiesse)
 - High-Intensity Focused Ultrasound (HIFU)
-- Fractional radiofrequency (Fraxel)
+- Fractional radiofrequency (Fraxex)
 - Intense Pulsed Light (IPL)
 - Spider vein treatment
 

@@ -1,82 +1,82 @@
 ---
-import { getImage } from 'astro:assets';
-import ServicesSection from './preact/services/ServicesSection';
+import { getImage } from "astro:assets";
+import ServicesSection from "./preact/services/ServicesSection";
 
 // Hero images
-import heroImage from '../assets/images/services/hero.jpg';
-import heroFacialImage from '../assets/images/services/hero-facial.jpg';
-import heroCorporalImage from '../assets/images/services/hero-corporal.jpg';
+import heroImage from "../assets/images/services/hero.jpg";
+import heroFacialImage from "../assets/images/services/hero-facial.jpg";
+import heroCorporalImage from "../assets/images/services/hero-corporal.jpg";
 
 // Facial treatment images
-import limpiezaFacialImg from '../assets/images/services/facial/limpieza-facial.jpg';
-import cicatricesImg from '../assets/images/services/facial/tratamiento-cicatrices.jpg';
-import toxinaImg from '../assets/images/services/facial/toxina-botulinica.jpg';
-import fillersImg from '../assets/images/services/facial/fillers.jpg';
-import bioestimulacionImg from '../assets/images/services/facial/bioestimulacion.jpg';
-import hifuImg from '../assets/images/services/facial/hifu.jpg';
-import fraxelImg from '../assets/images/services/facial/fraxel.jpg';
-import luzPulsadaImg from '../assets/images/services/facial/luz-pulsada.jpg';
-import spiderImg from '../assets/images/services/facial/spider.jpg';
+import limpiezaFacialImg from "../assets/images/services/facial/limpieza-facial.jpg";
+import cicatricesImg from "../assets/images/services/facial/tratamiento-cicatrices.jpg";
+import toxinaImg from "../assets/images/services/facial/toxina-botulinica.jpg";
+import fillersImg from "../assets/images/services/facial/fillers.jpg";
+import bioestimulacionImg from "../assets/images/services/facial/bioestimulacion.jpg";
+import hifuImg from "../assets/images/services/facial/hifu.webp";
+import fraxexImg from "../assets/images/services/facial/fraxex.jpg";
+import luzPulsadaImg from "../assets/images/services/facial/luz-pulsada.jpg";
+import spiderImg from "../assets/images/services/facial/spider.jpg";
 
 // Corporal treatment images
-import masajesModeladoresImg from '../assets/images/services/corporal/masajes-modeladores.jpg';
-import lipolaserImg from '../assets/images/services/corporal/lipolaser.jpg';
-import bodyUpImg from '../assets/images/services/corporal/body-up.jpg';
-import termoSlimImg from '../assets/images/services/corporal/termo-slim.jpg';
-import electroterapiaImg from '../assets/images/services/corporal/electroterapia.jpg';
-import presoterapiaImg from '../assets/images/services/corporal/presoterapia.jpg';
-import radiofrecuenciaImg from '../assets/images/services/corporal/radiofrecuencia.jpg';
-import rfFraccionadaImg from '../assets/images/services/corporal/radiofrecuencia-fraccionada.jpg';
-import ultraCavitacionImg from '../assets/images/services/corporal/ultra-cavitacion.jpg';
-import depilacionImg from '../assets/images/services/corporal/depilacion-definitiva.jpg';
+import masajesModeladoresImg from "../assets/images/services/corporal/masajes-modeladores.jpg";
+import lipolaserImg from "../assets/images/services/corporal/lipolaser.jpg";
+import bodyUpImg from "../assets/images/services/corporal/body-up.jpg";
+import termoSlimImg from "../assets/images/services/corporal/termo-slim.jpg";
+import electroterapiaImg from "../assets/images/services/corporal/electroterapia.jpg";
+import presoterapiaImg from "../assets/images/services/corporal/presoterapia.jpg";
+import radiofrecuenciaImg from "../assets/images/services/corporal/radiofrecuencia.jpg";
+import rfFraccionadaImg from "../assets/images/services/corporal/radiofrecuencia-fraccionada.jpg";
+import ultraCavitacionImg from "../assets/images/services/corporal/ultra-cavitacion.jpg";
+import depilacionImg from "../assets/images/services/corporal/depilacion-definitiva.jpg";
 
 // Wellness treatment images
-import descontracturanteImg from '../assets/images/services/wellness/masaje-descontracturante.jpg';
-import californianoImg from '../assets/images/services/wellness/masaje-californiano.jpg';
-import ayurvedicoImg from '../assets/images/services/wellness/masaje-ayurvedico.jpg';
-import reflexologiaImg from '../assets/images/services/wellness/reflexologia.jpg';
-import sillaImg from '../assets/images/services/wellness/masaje-silla.jpg';
-import piedrasImg from '../assets/images/services/wellness/masaje-piedras-calientes.jpg';
+import descontracturanteImg from "../assets/images/services/wellness/masaje-descontracturante.jpg";
+import californianoImg from "../assets/images/services/wellness/masaje-californiano.jpg";
+import ayurvedicoImg from "../assets/images/services/wellness/masaje-ayurvedico.jpg";
+import reflexologiaImg from "../assets/images/services/wellness/reflexologia.jpg";
+import sillaImg from "../assets/images/services/wellness/masaje-silla.jpg";
+import piedrasImg from "../assets/images/services/wellness/masaje-piedras-calientes.jpg";
 
 // Optimize hero images for each service area
 const heroImages: Record<string, string> = {
-  facial: (await getImage({ src: heroFacialImage, format: 'webp' })).src,
-  corporal: (await getImage({ src: heroCorporalImage, format: 'webp' })).src,
-  wellness: (await getImage({ src: heroImage, format: 'webp' })).src,
+  facial: (await getImage({ src: heroFacialImage, format: "webp" })).src,
+  corporal: (await getImage({ src: heroCorporalImage, format: "webp" })).src,
+  wellness: (await getImage({ src: heroImage, format: "webp" })).src,
 };
 
 const treatmentImageMap = {
-  'limpieza-facial': limpiezaFacialImg,
-  'cicatrices': cicatricesImg,
-  'toxina': toxinaImg,
-  'fillers': fillersImg,
-  'bioestimulacion': bioestimulacionImg,
-  'hifu': hifuImg,
-  'fraxel': fraxelImg,
-  'luz-pulsada': luzPulsadaImg,
-  'spider': spiderImg,
-  'masajes-modeladores': masajesModeladoresImg,
-  'lipolaser': lipolaserImg,
-  'body-up': bodyUpImg,
-  'termo-slim': termoSlimImg,
-  'electroterapia': electroterapiaImg,
-  'presoterapia': presoterapiaImg,
-  'radiofrecuencia': radiofrecuenciaImg,
-  'rf-fraccionada': rfFraccionadaImg,
-  'ultra-cavitacion': ultraCavitacionImg,
-  'depilacion': depilacionImg,
-  'descontracturante': descontracturanteImg,
-  'californiano': californianoImg,
-  'ayurvedico': ayurvedicoImg,
-  'reflexologia': reflexologiaImg,
-  'silla': sillaImg,
-  'piedras': piedrasImg,
+  "limpieza-facial": limpiezaFacialImg,
+  cicatrices: cicatricesImg,
+  toxina: toxinaImg,
+  fillers: fillersImg,
+  bioestimulacion: bioestimulacionImg,
+  hifu: hifuImg,
+  fraxex: fraxexImg,
+  "luz-pulsada": luzPulsadaImg,
+  spider: spiderImg,
+  "masajes-modeladores": masajesModeladoresImg,
+  lipolaser: lipolaserImg,
+  "body-up": bodyUpImg,
+  "termo-slim": termoSlimImg,
+  electroterapia: electroterapiaImg,
+  presoterapia: presoterapiaImg,
+  radiofrecuencia: radiofrecuenciaImg,
+  "rf-fraccionada": rfFraccionadaImg,
+  "ultra-cavitacion": ultraCavitacionImg,
+  depilacion: depilacionImg,
+  descontracturante: descontracturanteImg,
+  californiano: californianoImg,
+  ayurvedico: ayurvedicoImg,
+  reflexologia: reflexologiaImg,
+  silla: sillaImg,
+  piedras: piedrasImg,
 };
 
 // Optimize all treatment images
 const treatmentImages: Record<string, string> = {};
 for (const [id, img] of Object.entries(treatmentImageMap)) {
-  const optimized = await getImage({ src: img, format: 'webp' });
+  const optimized = await getImage({ src: img, format: "webp" });
   treatmentImages[id] = optimized.src;
 }
 ---

@@ -72,7 +72,7 @@ Tecnología que estimula la producción de colágeno a nivel profundo, logrando 
 
 ---
 
-#### Fraxel: Radiofrecuencia Fraccionada
+#### Fraxex: Radiofrecuencia Fraccionada
 Favorece la regeneración de la piel mediante energía térmica controlada. Reduce poros, mejora textura, luminosidad y firmeza, promoviendo una renovación profunda y uniforme.
 
 ---
